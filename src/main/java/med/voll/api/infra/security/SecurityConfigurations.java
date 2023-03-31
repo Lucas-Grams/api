@@ -26,12 +26,8 @@ public class SecurityConfigurations {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/login").permitAll()
-                .anyRequest().authenticated()
-                .and().addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
-                .build();
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)//desativa o processo padrao do spring de segurança, ou seja, não joga mais pro login
+                .and().authorizeHttpRequests().requestMatchers(HttpMethod.POST,"/login").permitAll().anyRequest().authenticated().and().addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class).build();
     }
 
     @Bean
